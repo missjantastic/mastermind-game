@@ -12,7 +12,9 @@ function onSubmit() {
         return;
     }
 
-    countGuesses();
+    if(countGuesses()==0){
+        alert("Game over!");
+    }
 }
 
 function validateGuesses(slot1, slot2, slot3, slot4) {
@@ -36,4 +38,7 @@ function countGuesses(){
     let guessesLeft = document.getElementById("guessesLeft");
     guesses = guesses - 1;
     guessesLeft.innerHTML= `You have ${guesses} guesses remaining!`;
+    if (guesses == 0) {
+        return 0;
+    }
 }
