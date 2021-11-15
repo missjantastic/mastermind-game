@@ -28,6 +28,7 @@ function onSubmit() {
     let slot2 = document.getElementById("slot2").value;
     let slot3 = document.getElementById("slot3").value;
     let slot4 = document.getElementById("slot4").value;
+    let guessArray = [slot1, slot2, slot3, slot4];
 
     let isValidated = validateGuesses(slot1, slot2, slot3, slot4);
     
@@ -40,7 +41,7 @@ function onSubmit() {
         return;
     }
 
-    if(compareAnswers(slot1, slot2, slot3, slot4))
+    if(compareAnswers(guessArray))
     {
         alert("You won! Game will now restart");
         reload();
@@ -73,7 +74,7 @@ function countGuesses(){
     }
 }
 
-function compareAnswers(slot1, slot2, slot3, slot4){
+function compareAnswers(guessArray){
     let allCorrect = false;
     let isCorrectLoc = false;
     let isCorrectNum = false;
@@ -81,7 +82,7 @@ function compareAnswers(slot1, slot2, slot3, slot4){
     let message = "";
     let element = document.getElementById("feedback_log");
     
-    if (slot1 == comboArray[0] && slot2 == comboArray[1] && slot3 == comboArray[2] && slot4 == comboArray[3]){
+    if (guessArray==comboArray){
         allCorrect = true;
     } else if(slot1 == comboArray[0] || slot2 == comboArray[1] || slot3 == comboArray[2] || slot4 == comboArray[4]) {
         isCorrectLoc = true;
