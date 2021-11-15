@@ -1,0 +1,47 @@
+:root {
+    --background-color: #3c3e36;
+    --light-accent: #ece7e1;
+}
+
+html, body {
+    font-family: "Delius";
+    background: var(--background-color);
+    color: var(--light-accent);
+    margin: 0;
+    text-align: center;
+}
+
+h1 {
+    font-family: "Itim";
+    font-size: 5vw;
+    font-weight: 100;
+    margin: 0;
+}
+
+img{
+    display: block;
+}
+
+#gamePage{
+    margin: 0 auto;
+    width: 70%;
+}
+
+#header{
+    background-image: url("../resources/detective_hat.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#guessingInterface{
+    height: 200px;
+    background-image: url("../resources/big_thought.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#guessesLeft{
+    color: #6A6D54;
+}

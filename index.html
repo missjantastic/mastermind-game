@@ -2,34 +2,37 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&family=Itim&family=Lateef&display=swap" rel="stylesheet">
     <meta charset="utf-8"/>
     <title>Mastermind Game</title>
 </head>
 
 <body>
+    <div id="gamePage">
+    <div id="header">
+    <h1>mastermind</h1>
+    </div>
 
-    <h1>Janina's Mastermind Game</h1>
-    <h2>Instructions</h2>
-    <ul>
-        <li>For each slot, guess a number between 0 and 7</li>
-        <li>You will receive feedback after each guess</li>
-        <li>You will have 10 tries to guess the number combination. Good luck!</li>
-    </ul>
-    <form id="user_guess">
-        <fieldset>
-        <legend>Guess the Combination!</legend>
-        <input type="number" id="slot1" required autofocus>
-        <input type="number" id="slot2" required>
-        <input type="number" id="slot3" required>
-        <input type="number" id="slot4" required>
-        <button id="submitButton" type="button" onclick="onSubmit()">Submit Guess!</button>
-        <input type="reset">
-        </fieldset>
+    <img src="resources/thought_bubble3.svg" alt="small thought bubble cloud">
+    <img src="resources/thought_bubble2.svg" alt="small thought bubble cloud">
+    <img src="resources/thought_bubble1.svg" alt="small thought bubble cloud">
+
+    <div id="guessingInterface">
+    <form id="user_guess" onKeyPress="return checkSubmit(event)">
+        <input type="number" id="slot1" maxlength="1" required autofocus>
+        <input type="number" id="slot2" maxlength="1" required>
+        <input type="number" id="slot3" maxlength="1" required>
+        <input type="number" id="slot4" maxlength="1" required>
+        <button id="submitButton" type="button" onclick="onSubmit()" style="display:none">Submit Guess!</button>
+        <p id ="guessesLeft">YOU HAVE 10 GUESSES REMAINING!</p>
     </form>
+    </div>
+
     <p id="validator"></p>
-    <p id ="guessesLeft">You have 10 guesses remaining!</p>
     <div id="feedback_log">
     <h2>Feedback Log</h2>
+    </div>
     </div>
 <script src="js/scripts.js" type="text/javascript"></script>
 </body>

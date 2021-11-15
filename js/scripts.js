@@ -2,16 +2,6 @@ let guesses;
 let comboArray;
 newGame();
 
-function newGame(){
-    guesses = 10;
-    httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
-        comboArray = result.split("\n");
-        comboArray.pop();
-        console.log(comboArray);
-    });
-}
-
-
 function httpGetAsync(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -22,6 +12,22 @@ function httpGetAsync(theUrl, callback)
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
 }
+
+function newGame(){
+    guesses = 10;
+    httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
+        comboArray = result.split("\n");
+        comboArray.pop();
+        console.log(comboArray);
+    });
+}
+
+function checkSubmit(e) {
+    if(e && e.keyCode == 13) {
+        onSubmit();
+     }
+}
+
 
 function onSubmit() {
     let slot1 = document.getElementById("slot1").value;
@@ -41,7 +47,7 @@ function onSubmit() {
         return;
     }
 
-    if(compareAnswers(guessArray))
+    if(compareAnswers(slot1, slot2, slot3, slot4))
     {
         alert("You won! Game will now restart");
         reload();
@@ -74,7 +80,7 @@ function countGuesses(){
     }
 }
 
-function compareAnswers(guessArray){
+function compareAnswers(slot1, slot2, slot3, slot4){
     let allCorrect = false;
     let isCorrectLoc = false;
     let isCorrectNum = false;
@@ -82,7 +88,7 @@ function compareAnswers(guessArray){
     let message = "";
     let element = document.getElementById("feedback_log");
     
-    if (guessArray==comboArray){
+    if (slot1 == comboArray[0] && slot2 == comboArray[1] && slot3 == comboArray[2] && slot4 == comboArray[3]){
         allCorrect = true;
     } else if(slot1 == comboArray[0] || slot2 == comboArray[1] || slot3 == comboArray[2] || slot4 == comboArray[4]) {
         isCorrectLoc = true;
