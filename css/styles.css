@@ -2,7 +2,17 @@
     --background-color: #3c3e36;
     --light-accent: #ece7e1;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 html, body {
     font-family: "Delius";
     background: var(--background-color);
@@ -11,20 +21,68 @@ html, body {
     text-align: center;
 }
 
+html {
+    box-sizing: border-box;
+  }
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
 h1 {
     font-family: "Itim";
     font-size: 5vw;
     font-weight: 100;
     margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 30%);
 }
 
 img{
     display: block;
 }
 
+form{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+}
+input{
+    width: 9vw;
+    height: 8vw;
+    border: 1px solid #745F57;
+    border-radius: 7%;
+    font-size: 5vw;
+    text-align: center;
+}
+
+.thoughtBubs{
+    flex:1;
+    margin-left:auto;
+}
+
+.thoughtBubs,one{
+    width:3vw; 
+    max-width:20px; 
+    margin-right: 33%;
+}
+.thoughtBubs,two{
+    width:5vw; 
+    max-width:30px; 
+    margin-right: 28%;
+}
+.thoughtBubs,three{
+    width:7vw; 
+    max-width:40px; 
+    margin-right: 23%;
+}
+
 #gamePage{
-    margin: 0 auto;
-    width: 70%;
+    display:flex;
+    flex-flow: column nowrap;
 }
 
 #header{
@@ -32,16 +90,30 @@ img{
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    margin-top: 2em;
+    display:flex;
+    flex-flow: row wrap-reverse;
+    height: 9vmax;
+    position: relative;
 }
 
 #guessingInterface{
-    height: 200px;
+    height: 20vmax;
+    width: 70vw;
+    margin: 0 auto;
     background-image: url("../resources/big_thought.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    padding: 4.5% 0;
 }
 
 #guessesLeft{
     color: #6A6D54;
+    margin-bottom: auto;
+    margin-top: 0.5em;
+    font-size: 1.5vw;
 }

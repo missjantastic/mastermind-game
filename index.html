@@ -10,30 +10,33 @@
 
 <body>
     <div id="gamePage">
-    <div id="header">
-    <h1>mastermind</h1>
+        <div id="header">
+            <h1>mastermind</h1>
+        </div>
+
+        <img class="thoughtBubs one" src="resources/thought_bubble3.svg" alt="small thought bubble cloud" style="width:20px;">
+        <img class="thoughtBubs two" src="resources/thought_bubble2.svg" alt="small thought bubble cloud" style="width:30px;">
+        <img class="thoughtBubs three" src="resources/thought_bubble1.svg" alt="small thought bubble cloud" style="width:40px;">
+
+        <div id="guessingInterface">
+            <form id="user_guess" onKeyPress="return checkSubmit(event)">
+                <input type="number" id="slot1" maxlength="1" required autofocus>
+                <input type="number" id="slot2" maxlength="1" required>
+                <input type="number" id="slot3" maxlength="1" required>
+                <input type="number" id="slot4" maxlength="1" required>
+                <button id="submitButton" type="button" onclick="onSubmit()" style="display:none">Submit Guess!</button>
+            </form>
+                <p id ="guessesLeft">YOU HAVE 10 GUESSES REMAINING!</p>
+        </div>
+        
+        <div id="feedback_log">
+            <h2>Feedback Log</h2>
+            <p id="validator"></p>
+
+        </div>
     </div>
 
-    <img src="resources/thought_bubble3.svg" alt="small thought bubble cloud">
-    <img src="resources/thought_bubble2.svg" alt="small thought bubble cloud">
-    <img src="resources/thought_bubble1.svg" alt="small thought bubble cloud">
-
-    <div id="guessingInterface">
-    <form id="user_guess" onKeyPress="return checkSubmit(event)">
-        <input type="number" id="slot1" maxlength="1" required autofocus>
-        <input type="number" id="slot2" maxlength="1" required>
-        <input type="number" id="slot3" maxlength="1" required>
-        <input type="number" id="slot4" maxlength="1" required>
-        <button id="submitButton" type="button" onclick="onSubmit()" style="display:none">Submit Guess!</button>
-        <p id ="guessesLeft">YOU HAVE 10 GUESSES REMAINING!</p>
-    </form>
-    </div>
-
-    <p id="validator"></p>
-    <div id="feedback_log">
-    <h2>Feedback Log</h2>
-    </div>
-    </div>
 <script src="js/scripts.js" type="text/javascript"></script>
+
 </body>
 </html>
