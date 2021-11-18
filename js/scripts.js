@@ -81,9 +81,6 @@ function countGuesses(){
 }
 
 function compareAnswers(guessArray){
-    /*let allCorrect = false;
-    let isCorrectLoc = false;
-    let isCorrectNum = false;*/
     let allCorrect = false;
     let CorrectLoc = 0;
     let CorrectNum = 0;
@@ -101,39 +98,19 @@ function compareAnswers(guessArray){
         allCorrect = true;
         return allCorrect;
     } else {
+
+        CorrectLoc = matches.length;
+        for (let i = 0; i < compareArray.length; i++) {
+            if (compareArray[i] == 0){
+                comboArray.splice(i, 1);
+            }
+        }
         for (let i = 0; i < guessArray.length; i++) {
             if (comboArray.includes(guessArray[i])){
                 CorrectNum += 1;
             }
         }
-        CorrectLoc = matches.length;
-        CorrectNum = CorrectNum - CorrectLoc;
     }
-
-    
-    /*if (slot1 == comboArray[0] && slot2 == comboArray[1] && slot3 == comboArray[2] && slot4 == comboArray[3]){
-        allCorrect = true;
-    } else if(slot1 == comboArray[0] || slot2 == comboArray[1] || slot3 == comboArray[2] || slot4 == comboArray[4]) {
-        isCorrectLoc = true;
-    } else {
-    for (let i = 0; i < comboArray.length; i++) {
-        if(slot1 == comboArray[i] || slot2 == comboArray[i] || slot3 == comboArray[i] || slot4 == comboArray[i]){
-            isCorrectNum = true;
-            break;
-        }
-    }}*/
-
-
-/*
-    if (allCorrect){
-        message = "Wow! You guessed the combination! You're a master codebreaker!";
-    } else if (isCorrectLoc){
-        message = "You have at least one guess in the correct location.";
-    } else if (isCorrectNum) {
-        message = "You have guessed at least one number correctly.";
-    } else {
-        message = "None of these numbers are correct. ";
-    }*/
 
     if (allCorrect) {
         message = "Wow! You guessed the combination! You're a master codebreaker!";
