@@ -138,10 +138,10 @@ function compareAnswers(guessArray){
     if (allCorrect) {
         message = "Wow! You guessed the combination! You're a master codebreaker!";
     }
-    else if (CorrectNum > 0){
-        message = `${CorrectLoc} of your guesses match the correct location. ${CorrectNum} of your guesses do not match the correct location. The rest are incorrect.`;
+    else if (CorrectLoc > 0 || CorrectNum > 0){
+        message = `You have ${CorrectLoc} of your guesses in the correct location. You have also guessed ${CorrectNum} matching numbers that are in the wrong location. The rest are incorrect.`;
     } else {
-        "None of these numbers are correct.";
+        message = "None of these numbers are correct.";
     }
 
     let feedbackText = document.createTextNode(message);
