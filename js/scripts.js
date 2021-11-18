@@ -43,14 +43,14 @@ function onSubmit() {
     }
 
     if(countGuesses()==0){
-        alert("Game over!");
-        return;
+        alert("You lose! Game will now restart");
+        location.reload();
     }
 
-    if(compareAnswers(slot1, slot2, slot3, slot4))
+    if(compareAnswers(guessArray))
     {
         alert("You won! Game will now restart");
-        reload();
+        location.reload();
     }
 }
 
@@ -80,15 +80,38 @@ function countGuesses(){
     }
 }
 
-function compareAnswers(slot1, slot2, slot3, slot4){
-    let allCorrect = false;
+function compareAnswers(guessArray){
+    /*let allCorrect = false;
     let isCorrectLoc = false;
-    let isCorrectNum = false;
+    let isCorrectNum = false;*/
+    let allCorrect = false;
+    let CorrectLoc = 0;
+    let CorrectNum = 0;
     let feedback = document.createElement("p");
     let message = "";
     let element = document.getElementById("feedback_log");
+    let compareArray = comboArray.map((slot, i) => slot - guessArray[i]);
+    console.log(compareArray);
+
+    let matches = compareArray.filter(match => match == 0);
+    console.log(matches);
+
     
-    if (slot1 == comboArray[0] && slot2 == comboArray[1] && slot3 == comboArray[2] && slot4 == comboArray[3]){
+    if (matches.length == 4){
+        allCorrect = true;
+        return allCorrect;
+    } else {
+        for (let i = 0; i < guessArray.length; i++) {
+            if (comboArray.includes(guessArray[i])){
+                CorrectNum += 1;
+            }
+        }
+        CorrectLoc = matches.length;
+        CorrectNum = CorrectNum - CorrectLoc;
+    }
+
+    
+    /*if (slot1 == comboArray[0] && slot2 == comboArray[1] && slot3 == comboArray[2] && slot4 == comboArray[3]){
         allCorrect = true;
     } else if(slot1 == comboArray[0] || slot2 == comboArray[1] || slot3 == comboArray[2] || slot4 == comboArray[4]) {
         isCorrectLoc = true;
@@ -98,8 +121,10 @@ function compareAnswers(slot1, slot2, slot3, slot4){
             isCorrectNum = true;
             break;
         }
-    }}
+    }}*/
 
+
+/*
     if (allCorrect){
         message = "Wow! You guessed the combination! You're a master codebreaker!";
     } else if (isCorrectLoc){
@@ -108,6 +133,15 @@ function compareAnswers(slot1, slot2, slot3, slot4){
         message = "You have guessed at least one number correctly.";
     } else {
         message = "None of these numbers are correct. ";
+    }*/
+
+    if (allCorrect) {
+        message = "Wow! You guessed the combination! You're a master codebreaker!";
+    }
+    else if (CorrectNum > 0){
+        message = `${CorrectLoc} of your guesses match the correct location. ${CorrectNum} of your guesses do not match the correct location. The rest are incorrect.`;
+    } else {
+        "None of these numbers are correct.";
     }
 
     let feedbackText = document.createTextNode(message);
