@@ -1,5 +1,5 @@
 let guessesLeft;
-let pattern;
+let randPattern;
 newGame();
 
 function httpGetAsync(theUrl, callback)
@@ -16,11 +16,11 @@ function httpGetAsync(theUrl, callback)
 function newGame(){
     guesses = 10;
 
-    //retrieve pattern of four random numbers from API and store them into an array
+    //retrieve randPattern of four random numbers from API and store them into an array
     httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
-        pattern = result.split("\n");
-        pattern.pop();
-        console.log(pattern);
+        randPattern = result.split("\n");
+        randPattern.pop();
+        console.log(randPattern);
     });
 }
 
@@ -83,11 +83,12 @@ function countGuesses(){
 }
 
 function submitGuess(playerGuesses){
+    let pattern = randPattern.map((x) => x);
     let allCorrect = false;
     let locMatches = 0;
     let existingNums = 0;
 
-    //an array containing the differences of pattern - playerGuesses
+    //an array containing the differences of the random pattern - player's guesses
     //an index with zero would indicate the index of a location match
     let differences = pattern.map((slot, i) => slot - playerGuesses[i]);
 
@@ -124,7 +125,7 @@ function sendResponse(allCorrect, locMatches, existingNums){
 
     //run this code if the entire guess is correct
     if (allCorrect) {
-        message = "Wow! You guessed the pattern! You're a master codebreaker! The game will restart now";
+        message = "Wow! You guessed the randPattern! You're a master codebreaker! The game will restart now";
         location.reload();
     }
     //else run this code if any part of their guess is correct in some way
