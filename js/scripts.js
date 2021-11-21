@@ -1,5 +1,6 @@
-let guessesLeft;
+let guessesLeft = 10;
 let randPattern;
+let messageHistory = [];
 newGame();
 
 function httpGetAsync(theUrl, callback)
@@ -14,7 +15,6 @@ function httpGetAsync(theUrl, callback)
 }
 
 function newGame(){
-    guesses = 10;
 
     //retrieve randPattern of four random numbers from API and store them into an array
     httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
@@ -22,6 +22,10 @@ function newGame(){
         randPattern.pop();
         console.log(randPattern);
     });
+}
+
+function helpOnClick(){
+    alert("HALP!");
 }
 
 function checkSubmit(e) {
@@ -76,9 +80,9 @@ function validateInput(slot1, slot2, slot3, slot4) {
 }
 
 function countGuesses(){
-    let guessesLeftText = document.getElementById("guessesLeft");
+    let guessesLeftText = document.getElementById("guessesLeftText");
     guessesLeft -= 1;
-    guessesLeftText.innerHTML= `You have ${guesses} guesses remaining!`;
+    guessesLeftText.innerHTML= `You have ${guessesLeft} guesses remaining!`;
     return guessesLeft;
 }
 
@@ -100,10 +104,10 @@ function submitGuess(playerGuesses){
     } else {
         locMatches = matches.length;
 
-        //this removes any location matches so they are no longer considered
+        //this marks any location matches with a -1 so they are no longer considered
         for (let i = 0; i < differences.length; i++) {
             if (differences[i] == 0){
-                pattern.splice(i, 1);
+                pattern[i] = -1;
             }
         }
         //this checks for matches that are not in the right location
@@ -114,32 +118,36 @@ function submitGuess(playerGuesses){
         }
     }
 
-    sendResponse(allCorrect, locMatches, existingNums);
+    sendResponse(allCorrect, locMatches, existingNums, playerGuesses);
     return;
 }
 
-function sendResponse(allCorrect, locMatches, existingNums){
-    let feedback = document.createElement("p");
-    let message = "";
-    let element = document.getElementById("feedback_log");
+function sendResponse(allCorrect, locMatches, existingNums, playerGuesses){
+    /*let feedback = document.createElement("p");
+    let element = document.getElementById("feedback_log");*/
+    let message = "Your guess: " + playerGuesses.join(' ') + "<br/>";
+    
 
     //run this code if the entire guess is correct
     if (allCorrect) {
-        message = "Wow! You guessed the randPattern! You're a master codebreaker! The game will restart now";
-        location.reload();
+        message += "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
     }
     //else run this code if any part of their guess is correct in some way
     else if (locMatches > 0 || existingNums > 0){
-        message = `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
+        message += `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
     } 
     //else run this code is their guess is completely incorrect
     else {
-        message = "None of these numbers are correct.";
+        message += "None of these numbers are correct.";
     }
 
-    let feedbackText = document.createTextNode(message);
+    messageHistory.unshift(message);
+
+    document.getElementById("feedback").innerHTML = messageHistory[0];
+
+    /*let feedbackText = document.createTextNode(message);
     feedback.appendChild(feedbackText);
-    element.appendChild(feedback);
+    element.appendChild(feedback);*/
 
     return;
 }
