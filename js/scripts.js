@@ -107,6 +107,7 @@ function submitGuess(playerGuesses){
         for (let i = 0; i < differences.length; i++) {
             if (differences[i] == 0){
                 pattern[i] = -1;
+                playerGuesses[i] = -2;
             }
         }
         //this checks for matches that are not in the right location
@@ -170,8 +171,10 @@ function createFeedbackElements(guess, response){
 
     feedbackHolder.appendChild(icon);
     feedbackHolder.appendChild(feedback);
-
-    feedbackHolder.setAttribute("style", "display: none;");
+    
+    if (document.getElementById("recentFeedback").style.display != "none"){
+        feedbackHolder.setAttribute("style", "display: none;");
+    }
 
     //element.appendChild(feedbackHolder);
     element.insertBefore(feedbackHolder, element.firstChild);
