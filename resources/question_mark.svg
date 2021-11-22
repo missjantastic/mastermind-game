@@ -1,29 +1,30 @@
-<svg id="Component_5_1" data-name="Component 5 – 1" xmlns="http://www.w3.org/2000/svg" width="98" height="106.297" viewBox="0 0 98 106.297">
+<svg id="Component_6_1" data-name="Component 6 – 1" xmlns="http://www.w3.org/2000/svg" width="98" height="106.297" viewBox="0 0 98 106.297">
   <defs>
     <style>
       .cls-1 {
+        fill: #3c3e36;
+        stroke: #ece7e1;
+        stroke-width: 5px;
+      }
+
+      .cls-2 {
         fill: #ece7e1;
         font-size: 87px;
         font-family: Itim-Regular, Itim;
       }
 
-      .cls-2, .cls-4 {
-        fill: none;
-      }
-
-      .cls-2 {
-        stroke: #ece7e1;
-        stroke-width: 5px;
-      }
-
       .cls-3 {
         stroke: none;
       }
+
+      .cls-4 {
+        fill: none;
+      }
     </style>
   </defs>
-  <text id="_" data-name="?" class="cls-1" transform="translate(28.947 82.949) rotate(2)"><tspan x="0" y="0">?</tspan></text>
-  <g id="Ellipse_4" data-name="Ellipse 4" class="cls-2" transform="translate(0 5.631)">
+  <g id="Ellipse_4" data-name="Ellipse 4" class="cls-1" transform="translate(0 5.631)">
     <ellipse class="cls-3" cx="49" cy="47.5" rx="49" ry="47.5"/>
     <ellipse class="cls-4" cx="49" cy="47.5" rx="46.5" ry="45"/>
   </g>
+  <text id="_" data-name="?" class="cls-2" transform="translate(28.947 82.949) rotate(2)"><tspan x="0" y="0">?</tspan></text>
 </svg>

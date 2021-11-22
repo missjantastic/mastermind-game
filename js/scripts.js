@@ -22,6 +22,7 @@ function newGame(){
         randPattern.pop();
         console.log(randPattern);
     });
+    document.getElementById("test").innerHTML = "I'll send your feedback here, Detective.";
 }
 
 function helpOnClick(){
@@ -62,7 +63,7 @@ function onSubmit() {
 }
 
 function validateInput(slot1, slot2, slot3, slot4) {
-    let validator = document.getElementById("validator");
+    let validator = document.getElementById("guessesLeftText");
 
     //if any of the input fiels are empty
     if(slot1 == "" || slot2 == "" || slot3 == "" || slot4 == "") {
@@ -74,7 +75,6 @@ function validateInput(slot1, slot2, slot3, slot4) {
         validator.style.display="block";
         return false;
     } else {
-        validator.style.display = "none";
         return true;
     }
 }
@@ -123,31 +123,60 @@ function submitGuess(playerGuesses){
 }
 
 function sendResponse(allCorrect, locMatches, existingNums, playerGuesses){
-    /*let feedback = document.createElement("p");
-    let element = document.getElementById("feedback_log");*/
-    let message = "Your guess: " + playerGuesses.join(' ') + "<br/>";
-    
+    let guessMessage = "Your guess: " + playerGuesses.join(' ');
+    let message;
 
     //run this code if the entire guess is correct
     if (allCorrect) {
-        message += "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
+        message = "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
     }
     //else run this code if any part of their guess is correct in some way
     else if (locMatches > 0 || existingNums > 0){
-        message += `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
+        message = `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
     } 
     //else run this code is their guess is completely incorrect
     else {
-        message += "None of these numbers are correct.";
+        message = "None of these numbers are correct.";
     }
 
     messageHistory.unshift(message);
+    messageHistory.unshift(guessMessage);
 
-    document.getElementById("feedback").innerHTML = messageHistory[0];
+    document.getElementById("test").innerHTML = guessMessage + "<br/>" + message;
 
-    /*let feedbackText = document.createTextNode(message);
-    feedback.appendChild(feedbackText);
-    element.appendChild(feedback);*/
+    createFeedbackElements(messageHistory[0],messageHistory[1]);
 
     return;
+}
+
+function createFeedbackElements(guess, response){
+    //div to prepend elements to
+    let element = document.getElementById("feedbackLog");
+    
+    //create new feedbackholder div
+    let feedbackHolder = document.createElement("div");
+    feedbackHolder.setAttribute("class","feedbackHolder");
+
+    //create icon
+    let icon = document.createElement("div");
+    icon.setAttribute("class","detective pic");
+
+    //create text message
+    let feedback = document.createElement("p");
+    feedback.setAttribute("class", "feedback");
+
+    //add everything to feedbackHolder div
+    let guessText = document.createTextNode(guess)
+    let feedbackText = document.createTextNode(response);
+    feedback.appendChild(guessText);
+    feedback.appendChild(document.createElement('br'));
+    feedback.appendChild(feedbackText);
+
+    feedbackHolder.appendChild(icon);
+    feedbackHolder.appendChild(feedback);
+
+    feedbackHolder.setAttribute("style", "display:none;");
+
+    //element.appendChild(feedbackHolder);
+    element.insertBefore(feedbackHolder, element.firstChild);
 }
