@@ -86,6 +86,7 @@ function countGuesses(){
 }
 
 function submitGuess(playerGuesses){
+    //copy pattern and guess arrays to local scope
     let pattern = randPattern.map((x) => x);
     let guesses = playerGuesses.map((x) => x);
     let allCorrect = false;
@@ -93,28 +94,30 @@ function submitGuess(playerGuesses){
     let existingNums = 0;
 
     //an array containing the differences of the random pattern - player's guesses
-    //an index with zero would indicate the index of a location match
+    //an index with zero would indicate a location match
     let differences = pattern.map((slot, i) => slot - playerGuesses[i]);
 
-    //an array of zeros, used to count the matches (sourced from differences)
-    let matches = differences.filter(match => match == 0);
-    
-    if (matches.length == 4){ //if all four guesses are correct
+    //counts location matches, and removes them so they are no longer considered
+    for (let i = 0; i < differences.length; i++) {
+        if (differences[i] == 0){
+            locMatches++;
+            pattern[i] = -1;
+            guesses[i] = -2;
+        }
+    }
+
+    //move on if all matches found
+    if(locMatches==4){
         allCorrect = true;
     } else {
-        locMatches = matches.length;
-
-        //this marks any location matches with a -1 so they are no longer considered
-        for (let i = 0; i < differences.length; i++) {
-            if (differences[i] == 0){
-                pattern[i] = -1;
-                guesses[i] = -2;
-            }
-        }
-        //this checks for matches that are not in the right location
+        //for every number in guesses, check if there is a match in pattern
         for (let i = 0; i < guesses.length; i++) {
-            if (pattern.includes(guesses[i])){
-                existingNums += 1;
+            //returns index of first number match
+            let foundIndex = pattern.findIndex(slot => slot == guesses[i]);
+            if (foundIndex >= 0){ //if number match is found, count it and remove from consideration
+                existingNums++;
+                pattern[foundIndex] = -1;
+                guesses[i] = -2;
             }
         }
     }
