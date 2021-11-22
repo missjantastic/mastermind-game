@@ -87,6 +87,7 @@ function countGuesses(){
 
 function submitGuess(playerGuesses){
     let pattern = randPattern.map((x) => x);
+    let guesses = playerGuesses.map((x) => x);
     let allCorrect = false;
     let locMatches = 0;
     let existingNums = 0;
@@ -107,12 +108,12 @@ function submitGuess(playerGuesses){
         for (let i = 0; i < differences.length; i++) {
             if (differences[i] == 0){
                 pattern[i] = -1;
-                playerGuesses[i] = -2;
+                guesses[i] = -2;
             }
         }
         //this checks for matches that are not in the right location
-        for (let i = 0; i < playerGuesses.length; i++) {
-            if (pattern.includes(playerGuesses[i])){
+        for (let i = 0; i < guesses.length; i++) {
+            if (pattern.includes(guesses[i])){
                 existingNums += 1;
             }
         }
