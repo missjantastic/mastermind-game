@@ -1,6 +1,5 @@
 let guessesLeft = 10;
 let randPattern;
-let messageHistory = [];
 newGame();
 
 function httpGetAsync(theUrl, callback)
@@ -22,7 +21,7 @@ function newGame(){
         randPattern.pop();
         console.log(randPattern);
     });
-    document.getElementById("test").innerHTML = "I'll send your feedback here, Detective.";
+    document.getElementById("recentFeedbackText").innerHTML = "I'll send your feedback here, Detective.";
 }
 
 function helpOnClick(){
@@ -139,12 +138,9 @@ function sendResponse(allCorrect, locMatches, existingNums, playerGuesses){
         message = "None of these numbers are correct.";
     }
 
-    messageHistory.unshift(message);
-    messageHistory.unshift(guessMessage);
+    document.getElementById("recentFeedbackText").innerHTML = guessMessage + "<br/>" + message;
 
-    document.getElementById("test").innerHTML = guessMessage + "<br/>" + message;
-
-    createFeedbackElements(messageHistory[0],messageHistory[1]);
+    createFeedbackElements(guessMessage, message);
 
     return;
 }
@@ -175,8 +171,24 @@ function createFeedbackElements(guess, response){
     feedbackHolder.appendChild(icon);
     feedbackHolder.appendChild(feedback);
 
-    feedbackHolder.setAttribute("style", "display:none;");
+    feedbackHolder.setAttribute("style", "display: none;");
 
     //element.appendChild(feedbackHolder);
     element.insertBefore(feedbackHolder, element.firstChild);
+}
+
+function toggleHistory(){
+    if (document.getElementById("recentFeedback").style.display != "none"){
+        let history = document.getElementsByClassName("feedbackHolder");
+            for (let i = 0; i < history.length; i++){
+                history[i].style.display = "";
+            }
+        document.getElementById("recentFeedback").style.display = "none";
+    } else {
+        let history = document.getElementsByClassName("feedbackHolder");
+            for (let i = 0; i < history.length; i++){
+                history[i].style.display = "none";
+            }
+        document.getElementById("recentFeedback").style.display = "";
+    }
 }

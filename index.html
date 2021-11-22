@@ -26,10 +26,11 @@
                 <p id ="guessesLeftText">YOU HAVE 10 GUESSES REMAINING!</p>
         </div>
         <div id="feedbackLog">
-        <div class="feedbackHolder">
-            <div class = "detective pic"></div>
-            <p id="test" class="feedback"></p>
-        </div>
+            <div id="recentFeedback" class="feedbackHolder">
+                <div class = "detective pic"></div>
+                <p id="recentFeedbackText" class="feedback"></p>
+            </div>
+            <button id="showHistory" onclick="toggleHistory()">Toggle History</button>
         </div>
     </div>
 
