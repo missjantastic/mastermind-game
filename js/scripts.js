@@ -45,7 +45,7 @@ function onSubmit() {
     let playerGuesses = [slot1, slot2, slot3, slot4];
 
     //validate that input meets requiremets
-    let isValidated = validateInput(slot1, slot2, slot3, slot4);
+    let isValidated = validateInput(playerGuesses);
     
     //if the input is not valid, exit function/don't submit input
     if(!isValidated) {
@@ -61,15 +61,15 @@ function onSubmit() {
     submitGuess(playerGuesses);
 }
 
-function validateInput(slot1, slot2, slot3, slot4) {
+function validateInput(playerGuesses) {
     let validator = document.getElementById("guessesLeftText");
 
     //if any of the input fiels are empty
-    if(slot1 == "" || slot2 == "" || slot3 == "" || slot4 == "") {
+    if(playerGuesses.includes(undefined || "")) {
         validator.innerHTML= "Make sure you have a guess for each slot!";
         validator.style.display="block";
         return false;
-    } else if(slot1 > 7 || slot1 < 0 || slot2 > 7 || slot2 < 0 || slot3 > 7 || slot3 < 0 || slot4 > 7 || slot4 < 0) { //if any of the inputs are not between 0 and 7
+    } else if(playerGuesses.find(slot => slot < 0 || slot > 7)){
         validator.innerHTML= "Make sure your guesses are between 0 and 7!";
         validator.style.display="block";
         return false;
@@ -128,24 +128,24 @@ function submitGuess(playerGuesses){
 
 function sendResponse(allCorrect, locMatches, existingNums, playerGuesses){
     let guessMessage = "Your guess: " + playerGuesses.join(' ');
-    let message;
+    let responseMessage;
 
     //run this code if the entire guess is correct
     if (allCorrect) {
-        message = "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
+        responseMessage = "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
     }
     //else run this code if any part of their guess is correct in some way
     else if (locMatches > 0 || existingNums > 0){
-        message = `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
+        responseMessage = `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
     } 
     //else run this code is their guess is completely incorrect
     else {
-        message = "None of these numbers are correct.";
+        responseMessage = "None of these numbers are correct.";
     }
 
-    document.getElementById("recentFeedbackText").innerHTML = guessMessage + "<br/>" + message;
+    document.getElementById("recentFeedbackText").innerHTML = guessMessage + "<br/>" + responseMessage;
 
-    createFeedbackElements(guessMessage, message);
+    createFeedbackElements(guessMessage, responseMessage);
 
     return;
 }
@@ -176,6 +176,7 @@ function createFeedbackElements(guess, response){
     feedbackHolder.appendChild(icon);
     feedbackHolder.appendChild(feedback);
     
+    //default state to hidden if toggle history off
     if (document.getElementById("recentFeedback").style.display != "none"){
         feedbackHolder.setAttribute("style", "display: none;");
     }
