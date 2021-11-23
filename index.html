@@ -9,12 +9,14 @@
 </head>
 
 <body>
-    <button id="help" onclick="helpOnClick()"></button>
     <div id="gamePage">
         <div id="header">
-            <h1>mastermind</h1>
+            <div id="logoContainer"><h1>mastermind</h1></div>
+            <button id="helpButton"></button>
         </div>
-        <img class="thoughtBubs" src="resources/thought_bubbles.svg" alt="three small thought bubble clouds">
+
+        <img id="thoughtBubs" src="resources/thought_bubbles.svg" alt="three small thought bubble clouds">
+
         <div id="guessingInterface">
             <form id="user_guess" onKeyPress="return checkSubmit(event)">
                 <input type="number" id="slot1" maxlength="1" required autofocus>
@@ -23,14 +25,48 @@
                 <input type="number" id="slot4" maxlength="1" required>
                 <button id="submitButton" type="button" onclick="onSubmit()" style="display:none">Submit Guess!</button>
             </form>
-                <p id ="guessesLeftText">YOU HAVE 10 GUESSES REMAINING!</p>
+            <p id ="guessesLeftText">10 GUESSES REMAINING!</p>
+
         </div>
+
         <div id="feedbackLog">
             <div id="recentFeedback" class="feedbackHolder">
                 <div class = "detective pic"></div>
                 <p id="recentFeedbackText" class="feedback"></p>
             </div>
+
             <button id="showHistory" onclick="toggleHistory()">Toggle History</button>
+        </div>
+    </div>
+
+    <div class="modalContainer" id="helpContainer">
+        <div class="modal">
+            <h1>Instructions</h1>
+            <p>The object of the game is to guess the 4 digit code.</p>
+            <ul>
+                <li>You have 10 chances to guess the correct code</li>
+                <li>Your guess must consists of 4 numbers between 0 and 7 (0 and 7 included)</li>
+                <li>You will receive feedback at the end of each guess. The feedback will tell you how many digits you guessed in the correct location, and how many that are in the code but not in the correct location.</li>
+                <li>You can view your entire feedback history by clicking the "View message history" under the feedback dialogue box.</li>
+            </ul>
+            <p>Remember to have fun! See if you can become a master codebreaker!</p>
+            <button id="closeButton">Ok</button>
+        </div>
+    </div>
+
+     <div class="modalContainer" id="welcomeContainer">
+        <div class="modal">
+            <h1>Welcome to Mastermind!</h1>
+            <p>The object of the game is to guess the 4 digit code.</p>
+            <ul>
+                <li>You have 10 chances to guess the correct code</li>
+                <li>Your guess must consists of 4 numbers between 0 and 7 (0 and 7 included)</li>
+                <li>You will receive feedback at the end of each guess. The feedback will tell you how many digits you guessed in the correct location, and how many that are in the code but not in the correct location.</li>
+                <li>You can view your entire feedback history by clicking the "View message history" under the feedback dialogue box.</li>
+                <li>Click on the question mark at the top of the page to review these instructions at any time.</li>
+            </ul>
+            <p>Remember to have fun! See if you can become a master codebreaker!</p>
+            <button id="startButton">Start</button>
         </div>
     </div>
 

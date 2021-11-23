@@ -2,6 +2,7 @@ let guessesLeft = 10;
 let randPattern;
 newGame();
 
+
 function httpGetAsync(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -14,7 +15,6 @@ function httpGetAsync(theUrl, callback)
 }
 
 function newGame(){
-
     //retrieve randPattern of four random numbers from API and store them into an array
     httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
         randPattern = result.split("\n");
@@ -22,6 +22,29 @@ function newGame(){
         console.log(randPattern);
     });
     document.getElementById("recentFeedbackText").innerHTML = "I'll send your feedback here, Detective.";
+
+    let helpButton = document.getElementById("helpButton");
+    let helpContainer = document.getElementById("helpContainer");
+    let closeButton = document.getElementById("closeButton");
+    let welcomeContainer = document.getElementById("welcomeContainer");
+    let startButton = document.getElementById("startButton");
+    welcomeContainer.classList.add("show");
+
+    helpButton.addEventListener("click", () => {
+        helpContainer.classList.add("show");
+    });
+    closeButton.addEventListener("click", () => {
+        helpContainer.classList.remove("show");
+    });
+    startButton.addEventListener("click", () => {
+        welcomeContainer.classList.remove("show");
+    });
+    helpContainer.addEventListener("click", () => {
+        helpContainer.classList.remove("show");
+    });
+    welcomeContainer.addEventListener("click", () => {
+        welcomeContainer.classList.remove("show");
+    });
 }
 
 function helpOnClick(){
@@ -81,7 +104,7 @@ function validateInput(playerGuesses) {
 function countGuesses(){
     let guessesLeftText = document.getElementById("guessesLeftText");
     guessesLeft -= 1;
-    guessesLeftText.innerHTML= `You have ${guessesLeft} guesses remaining!`;
+    guessesLeftText.innerHTML= `${guessesLeft} GUESSES REMAINING`;
     return guessesLeft;
 }
 

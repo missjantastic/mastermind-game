@@ -1,3 +1,5 @@
+/* || GENERAL STYLES */
+
 :root {
     --background-color: #3c3e36;
     --light-accent: #ece7e1;
@@ -8,13 +10,16 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
-html, body {
+
+*{
     font-family: "Delius";
+}
+
+html, body {
     background: var(--background-color);
     color: var(--light-accent);
     margin: 0;
@@ -30,97 +35,88 @@ html {
 
 h1 {
     font-family: "Itim";
-    font-size: 6vw;
     font-weight: 100;
-    margin: 0;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 30%);
-}
-
-img{
-    display: block;
 }
 
 form{
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    gap: 10px;
-    margin-top: auto;
+    gap: 1.5vw;
+    margin-top: 5vw;
 }
+
 input{
-    width: 9vw;
-    height: 8vw;
+    width: 10vw;
+    height: 9.5vw;
     border: 1px solid #745F57;
     border-radius: 7%;
     font-size: 5vw;
     text-align: center;
 }
 
-.thoughtBubs{
-    flex:1;
-    margin-left:auto;
-    margin-right: 20%;
-    width: 11vw;
-}
-
-#help{
-    position: absolute;
-    right: 2vw;
-    top: 2vw;
-    background-color: transparent;
-    border: 0;
-    width: 5vw;
-    height: 5vw;
-    z-index: 1;
-    background-image: url("../resources/question_mark.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor:pointer;
-}
-
-#icon{
-    width: 5vw;
-    height: 5vw;
-}
-
+/* || OTHER STYLES */
 #gamePage{
     display:flex;
     flex-flow: column nowrap;
 }
 
 #header{
+    margin-top: 2em;
+    position: relative;
+}
+
+#logoContainer{
     background-image: url("../resources/detective_hat.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    margin-top: 2em;
-    display:flex;
-    flex-flow: row wrap-reverse;
-    height: 9vmax;
-    position: relative;
+    height: 11vw;
+    margin: 0 auto;
+}
+
+#logoContainer h1{
+    font-size: 6vw;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 20%);
+}
+
+#helpButton{
+    position: absolute;
+    right: 2vw;
+    top: 0;
+    background-color: transparent;
+    border: 0;
+    width: 5vw;
+    height: 5vw;
+    background: url("../resources/question_mark.svg") no-repeat;
+    background-size: contain;
+    cursor:pointer;
+}
+
+#thoughtBubs{
+    margin: -1vw 20% -2vw auto;
+    width: 11vw;
 }
 
 #guessingInterface{
     height: 20vw;
     width: 70vw;
-    margin: -2vw auto 0 auto;
-    background-image: url("../resources/big_thought.svg");
-    background-repeat: no-repeat;
-    background-position: center;
+    margin: 0 auto;
+    background: url("../resources/big_thought.svg") no-repeat center;
     background-size: contain;
     display: flex;
     flex-flow: column wrap;
     align-items: center;
-    padding: 4.5% 0;
 }
 
 #guessesLeftText{
     color: #6A6D54;
     margin-bottom: auto;
-    margin-top: 0.5em;
+    margin-top: 0.25em;
     font-size: 1.5vw;
 }
 
@@ -132,6 +128,11 @@ input{
     margin: .5em auto;
 }
 
+.detective{
+    background-image: url("../resources/detective_icon.png");
+    background-color: #9F8A75;
+}
+
 .pic{
     width: 5vw;
     height: 5vw;
@@ -139,11 +140,6 @@ input{
     border-radius: 50%;
     background-repeat: no-repeat;
     background-size: contain;
-}
-
-.detective{
-    background-image: url("../resources/detective_icon.png");
-    background-color: #9F8A75;
 }
 
 .feedback{
@@ -155,6 +151,49 @@ input{
     font-size: 1vw;
 }
 
-.feedbackLog > div:not(:first-child){
-    display:none;
+.modalContainer{
+    background-color: rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.modalContainer.show{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal{
+    background-color: var(--light-accent);
+    color: var(--background-color);
+    width: 50vmin;
+    margin: 20vh auto 0 auto;
+    padding: 2em 3em 2em 2em;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.modal h1{
+    margin:0;
+    padding-top: 0;
+}
+
+.modal button{
+    background-color: #745F57;
+    border: 0;
+    border-radius: 10%;
+    color: #fff;
+    padding: 1em 3em;
+}
+
+.modal li{
+    text-align: justify;
+    margin-top: 1em;
 }
