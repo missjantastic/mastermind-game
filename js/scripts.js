@@ -2,9 +2,16 @@ let guessesLeft = 10;
 let randPattern;
 newGame();
 
-
-function httpGetAsync(theUrl, callback)
+/**
+ * Returns x raised to the n-th power.
+ *
+ * @param {string} theUrl The URL of the API being requested
+ * @param {fuction} callback Function containing what will be done with the result
+ * @return none
+ */
+/*function httpGetAsync(theUrl, callback)
 {
+    //new
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
@@ -12,15 +19,25 @@ function httpGetAsync(theUrl, callback)
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
+}*/
+
+async function getPattern(url){
+    const response = await fetch(url);
+    result = await response.text();
+    randPattern = result.split("\n");
+    randPattern.pop();
+    console.log(randPattern);
 }
 
 function newGame(){
     //retrieve randPattern of four random numbers from API and store them into an array
-    httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
+    /*httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
         randPattern = result.split("\n");
         randPattern.pop();
         console.log(randPattern);
-    });
+    });*/
+
+    getPattern('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new');
     document.getElementById("recentFeedbackText").innerHTML = "I'll send your feedback here, Detective.";
     document.getElementById("toggleButton").style.display = "none";
 
