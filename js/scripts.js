@@ -152,7 +152,7 @@ function sendResponse(locMatches, existingNums, playerGuesses){
     } 
     //else run this code is their guess is completely incorrect
     else {
-        responseMessage = "None of these numbers are correct.";
+        responseMessage = "None of these numbers are correct. I thought you were supposed to be a master code breaker??";
     }
 
     //adds most recent feedback to top of the feedback history (default hidden)
@@ -176,11 +176,11 @@ function endGame(isWon){
 
     if (isWon) {
         winLoseTitle.innerHTML = "You Won!";
-        winLoseText.innerHTML = "Wow, you guessed the code! You're a master codebreaker! Press the button to play again."
+        winLoseText.innerHTML = "Wow, you guessed the code! I guess you were technically telling the truth on your resume-- You're a Master Codebreaker!"
     }
     else {
         winLoseTitle.innerHTML = "You Lost!";
-        winLoseText.innerHTML = "Aw man, you ran out of guesses! Do you want to try again?"
+        winLoseText.innerHTML = "Oops, we're locked out of the safe. Looks like you ran out of guesses! Oh well, time to get lunch. I've really been craving those tacos from Javier's."
     }
 
     document.getElementById("winLoseContainer").classList.add("show");
