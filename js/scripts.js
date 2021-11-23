@@ -80,8 +80,10 @@ function onSubmit() {
         document.getElementById("toggleButton").style.display = "";
     }
 
-    //submit player Guess
+    //submit player Guess, clear inputs
     submitGuess(playerGuesses);
+    document.getElementById("userGuess").reset();
+    document.getElementById("slot1").focus();
 }
 
 
@@ -146,7 +148,7 @@ function sendResponse(locMatches, existingNums, playerGuesses){
 
     //else run this code if any part of their guess is correct in some way
     if (locMatches > 0 || existingNums > 0){
-        responseMessage = `${locMatches} of your guesses are in the correct location. ${existingNums} of your guesses are in the code, but not in the right location.`;
+        responseMessage = `You have ${locMatches} of your guesses in the correct location. You also have ${existingNums} of your guesses somewhere in the code, but not in the correct location.`;
     } 
     //else run this code is their guess is completely incorrect
     else {
@@ -271,7 +273,7 @@ function createFeedbackElements(guess, response){
 
     //create icon
     let icon = document.createElement("div");
-    icon.setAttribute("class","detective pic");
+    icon.setAttribute("id","detectivePic");
 
     //create feedback message element
     let feedback = document.createElement("p");

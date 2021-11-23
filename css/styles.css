@@ -4,16 +4,6 @@
     --background-color: #3c3e36;
     --light-accent: #ece7e1;
 }
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
 
 *{
     font-family: "Delius";
@@ -22,8 +12,8 @@ input[type=number] {
 html, body {
     background: var(--background-color);
     color: var(--light-accent);
-    margin: 0;
     text-align: center;
+    margin: 0;
 }
 
 html {
@@ -38,14 +28,6 @@ h1 {
     font-weight: 100;
 }
 
-form{
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 1.5vw;
-    margin-top: 5vw;
-}
-
 input{
     width: 10vw;
     height: 9.5vw;
@@ -56,21 +38,34 @@ input{
     color: var(--background-color);
 }
 
+/* removing spinbar on inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
 /* || OTHER STYLES */
 #gamePage{
     display:flex;
     flex-flow: column nowrap;
 }
 
+/*--Header Styles--*/
 #header{
-    margin-top: 2em;
     position: relative;
+    margin-top: 2em;
 }
 
 #logoContainer{
-    background-image: url("../resources/detective_hat.svg");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("../resources/detective_hat.svg") no-repeat center;
     background-size: contain;
     height: 11vw;
     margin: 0 auto;
@@ -78,105 +73,117 @@ input{
 
 #logoContainer h1{
     font-size: 6vw;
-    margin: 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.3);
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 20%);
+    margin: 0;
 }
+/*--End Header Styles--*/
+
 
 #helpButton{
+    width: 5vw;
+    height: 5vw;
+    border: 0;
     position: absolute;
     right: 2vw;
     top: 0;
     background-color: transparent;
-    border: 0;
-    width: 5vw;
-    height: 5vw;
     background: url("../resources/question_mark.svg") no-repeat;
     background-size: contain;
-    cursor:pointer;
 }
 
 #thoughtBubs{
-    margin: -1vw 20% -2vw auto;
     width: 11vw;
+    margin: -1vw 20% -2vw auto;
 }
 
+/*Guessing Interface Styles*/
 #guessingInterface{
-    height: 20vw;
     width: 70vw;
-    margin: 0 auto;
-    background: url("../resources/big_thought.svg") no-repeat center;
-    background-size: contain;
+    height: 20vw;
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    background: url("../resources/big_thought.svg") no-repeat center;
+    background-size: contain;
+    margin: 0 auto;
+}
+
+#userGuess{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 1.5vw;
+    margin-top: 5vw;
 }
 
 #guessesLeftText{
-    color: #6A6D54;
-    margin-bottom: auto;
-    margin-top: 0.25em;
     font-size: 1.5vw;
+    color: #6A6D54;
+    margin-top: 0.25em;
+    margin-bottom: auto;
 }
 
+/*Feedback Log Styles*/
 #feedbackLog{
     position:relative;
 }
 
 .feedbackHolder{
+    width: 70vw;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    width: 70vw;
     margin: .5em auto;
 }
 
-.detective{
-    background-image: url("../resources/detective_icon.png");
-    background-color: #9F8A75;
-}
-
-.pic{
+#detectivePic{
     width: 5vw;
     height: 5vw;
-    margin: 0 1vw 0 auto;
     border-radius: 50%;
-    background-repeat: no-repeat;
+    background: #9F8A75 url("../resources/detective_icon.png") no-repeat;
     background-size: contain;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    margin: 0 1vw 0 auto;
 }
 
 .feedback{
-    margin: 0 auto 0 0;
-    background-color: #656565;
-    border-radius: 5em;
-    padding: 1.25em;
-    max-width: 50%;
     font-size: 1vw;
+    max-width: 50%;
+    border-radius: 5em;
+    background-color: #656565;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    margin: 0 auto 0 0;
+    padding: 1.25em;
 }
 
 #toggleButton{
-    background-color: transparent;
+    font-size: 1vw;
     color: var(--light-accent);
     border: 0;
-    cursor: pointer;
-    font-size: 1vw;
     position: absolute;
     right: 30vw;
-    /*display: none;*/
+    background-color: transparent;
 }
 
+#toggleButton:hover{
+    text-shadow: 0 0 5px var(--light-accent);
+}
+
+/*Modal Styles*/
 .modalContainer{
-    background-color: rgba(0,0,0,0.3);
+    width: 100vw;
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    background-color: rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .modalContainer.show{
@@ -185,18 +192,18 @@ input{
 }
 
 .modal{
-    background-color: var(--light-accent);
     color: var(--background-color);
+    text-align: center;
     width: 50vw;
     max-width: 500px;
     max-height: 80vmin;
-    margin: 15vmin auto 0 auto;
-    padding: 2em 3em 2em 2em;
     border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     z-index: 10;
     overflow: auto;
+    background-color: var(--light-accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    margin: 15vmin auto 0 auto;
+    padding: 2em 3em 2em 2em;
 }
 
 .modal h1{
@@ -205,14 +212,23 @@ input{
 }
 
 .modal button{
-    background-color: #745F57;
+    color: #fff;
     border: 0;
     border-radius: 10%;
-    color: #fff;
+    background-color: #745F57;
     padding: 1em 3em;
+}
+
+.modal button:hover{
+    background-color: #8d766c;
+}
+
+.modal button:active{
+    background-color: #745F57;
 }
 
 .modal li{
     text-align: justify;
     margin-top: 1em;
 }
+/*End Modal Styles*/
