@@ -120,6 +120,10 @@ input{
     font-size: 1.5vw;
 }
 
+#feedbackLog{
+    position:relative;
+}
+
 .feedbackHolder{
     display: flex;
     flex-flow: row wrap;
@@ -149,6 +153,17 @@ input{
     padding: 1.25em;
     max-width: 50%;
     font-size: 1vw;
+}
+
+#toggleButton{
+    background-color: transparent;
+    color: var(--light-accent);
+    border: 0;
+    cursor: pointer;
+    font-size: 1vw;
+    position: absolute;
+    right: 30vw;
+    /*display: none;*/
 }
 
 .modalContainer{

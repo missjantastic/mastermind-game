@@ -22,6 +22,8 @@ function newGame(){
         console.log(randPattern);
     });
     document.getElementById("recentFeedbackText").innerHTML = "I'll send your feedback here, Detective.";
+    document.getElementById("toggleButton").style.display = "none";
+
 
     let helpButton = document.getElementById("helpButton");
     let helpContainer = document.getElementById("helpContainer");
@@ -76,9 +78,12 @@ function onSubmit() {
     }
 
     //if they run out of guesses, end game
-    if(countGuesses()==0){
+    guessesLeft = countGuesses();
+    if(guessesLeft==0){
         alert("You lose! Game will now restart");
         location.reload();
+    } else if (guessesLeft < 9){
+        document.getElementById("toggleButton").style.display = "";
     }
 
     submitGuess(playerGuesses);
