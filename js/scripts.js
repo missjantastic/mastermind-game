@@ -1,83 +1,60 @@
-let guessesLeft = 10;
+/*
+TABLE OF CONTENTS:
+- MAIN FUNCTIONS (setUpPage, onSubmit, submitGuess, sendResponse, endGame)
+- HELPER FUNCTIONS (getPattern, hideOnClick, countGuesses, validateInput, createFeedbackElements)
+- OTHER FUNCTIONS (checkSubmit, toggleHistory)
+*/
+
+let guessesLeft;
 let randPattern;
-newGame();
+setUpPage();
+
+/*-------MAIN FUNCTIONS-------*/
 
 /**
- * Returns x raised to the n-th power.
- *
- * @param {string} theUrl The URL of the API being requested
- * @param {fuction} callback Function containing what will be done with the result
- * @return none
- */
-/*function httpGetAsync(theUrl, callback)
-{
-    //new
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}*/
-
-async function getPattern(url){
-    const response = await fetch(url);
-    result = await response.text();
-    randPattern = result.split("\n");
-    randPattern.pop();
-    console.log(randPattern);
-}
-
-function newGame(){
-    //retrieve randPattern of four random numbers from API and store them into an array
-    /*httpGetAsync('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new', function(result){
-        randPattern = result.split("\n");
-        randPattern.pop();
-        console.log(randPattern);
-    });*/
-
+ * Sets up random pattern, guesses left, and modals
+ **/
+function setUpPage(){
+    //retrieve the random 4 digit code
     getPattern('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new');
+
+    //initialize guesses
+    guessesLeft = 10;
+
+    //initialize feedback log
     document.getElementById("recentFeedbackText").innerHTML = "I'll send your feedback here, Detective.";
     document.getElementById("toggleButton").style.display = "none";
 
-
+    //setting up buttons and modals
     let helpButton = document.getElementById("helpButton");
-    let helpContainer = document.getElementById("helpContainer");
     let closeButton = document.getElementById("closeButton");
-    let welcomeContainer = document.getElementById("welcomeContainer");
     let startButton = document.getElementById("startButton");
-    welcomeContainer.classList.add("show");
-
+    let toggleButton = document.getElementById("toggleButton");
+    let helpContainer = document.getElementById("helpContainer");
+    let welcomeContainer = document.getElementById("welcomeContainer");
+    toggleButton.addEventListener("click", () =>{
+        toggleHistory();
+    })
     helpButton.addEventListener("click", () => {
         helpContainer.classList.add("show");
     });
-    closeButton.addEventListener("click", () => {
-        helpContainer.classList.remove("show");
-    });
-    startButton.addEventListener("click", () => {
-        welcomeContainer.classList.remove("show");
-    });
-    helpContainer.addEventListener("click", () => {
-        helpContainer.classList.remove("show");
-    });
-    welcomeContainer.addEventListener("click", () => {
-        welcomeContainer.classList.remove("show");
-    });
+
+    //show welcome modal at start
+    welcomeContainer.classList.add("show");
+
+    //set up for closing modals
+    hideOnClick(closeButton);
+    hideOnClick(startButton);
+    hideOnClick(helpContainer);
+    hideOnClick(welcomeContainer);
 }
 
-function helpOnClick(){
-    alert("HALP!");
-}
-
-function checkSubmit(e) {
-    //if player clicks enter key, register a submitted guess
-    if(e && e.keyCode == 13) {
-        onSubmit();
-     }
-}
-
-
+/**
+ * store player guess into array, validate it, and submit
+ * if they did not run out of guesses
+ * 
+ * @return function exits if input is not validated
+ */
 function onSubmit() {
     //load player guesses into an array
     let slot1 = document.getElementById("slot1").value;
@@ -89,57 +66,41 @@ function onSubmit() {
     //validate that input meets requiremets
     let isValidated = validateInput(playerGuesses);
     
-    //if the input is not valid, exit function/don't submit input
+    //exit function if input is not valid
     if(!isValidated) {
         return;
     }
 
-    //if they run out of guesses, end game
     guessesLeft = countGuesses();
+    //if they run out of guesses, end game
     if(guessesLeft==0){
-        alert("You lose! Game will now restart");
-        location.reload();
-    } else if (guessesLeft < 9){
+        let isWon = false;
+        endGame(isWon);
+    } else if (guessesLeft < 9){ //display feedback toggle if there is more than one guess
         document.getElementById("toggleButton").style.display = "";
     }
 
+    //submit player Guess
     submitGuess(playerGuesses);
 }
 
-function validateInput(playerGuesses) {
-    let validator = document.getElementById("guessesLeftText");
 
-    //if any of the input fiels are empty
-    if(playerGuesses.includes(undefined || "")) {
-        validator.innerHTML= "Make sure you have a guess for each slot!";
-        validator.style.display="block";
-        return false;
-    } else if(playerGuesses.find(slot => slot < 0 || slot > 7)){
-        validator.innerHTML= "Make sure your guesses are between 0 and 7!";
-        validator.style.display="block";
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function countGuesses(){
-    let guessesLeftText = document.getElementById("guessesLeftText");
-    guessesLeft -= 1;
-    guessesLeftText.innerHTML= `${guessesLeft} GUESSES REMAINING`;
-    return guessesLeft;
-}
-
+/**
+ * compares guess to actual pattern and sends appropriate response
+ *
+ * @param {array} playerGuesses
+ **/
 function submitGuess(playerGuesses){
-    //copy pattern and guess arrays to local scope
+    //copy randPattern and playerGuesses arrays to local scope
     let pattern = randPattern.map((x) => x);
     let guesses = playerGuesses.map((x) => x);
+    //initialize tracking variables
     let allCorrect = false;
     let locMatches = 0;
     let existingNums = 0;
 
     //an array containing the differences of the random pattern - player's guesses
-    //an index with zero would indicate a location match
+    //an index containing zero would indicate a location match
     let differences = pattern.map((slot, i) => slot - playerGuesses[i]);
 
     //counts location matches, and removes them so they are no longer considered
@@ -154,8 +115,9 @@ function submitGuess(playerGuesses){
     //move on if all matches found
     if(locMatches==4){
         allCorrect = true;
+        endGame(allCorrect);
     } else {
-        //for every number in guesses, check if there is a match in pattern
+        //for each number in guesses, check if there is a match in pattern
         for (let i = 0; i < guesses.length; i++) {
             //returns index of first number match
             let foundIndex = pattern.findIndex(slot => slot == guesses[i]);
@@ -167,37 +129,141 @@ function submitGuess(playerGuesses){
         }
     }
 
-    sendResponse(allCorrect, locMatches, existingNums, playerGuesses);
-    return;
+    sendResponse(locMatches, existingNums, playerGuesses);
 }
 
-function sendResponse(allCorrect, locMatches, existingNums, playerGuesses){
+/**
+ * sends feedback to page
+ *
+ * @param {Number} locMatches number of guesses in the right location
+ * @param {Number} existingNums number of guesses not in the right location
+ * @param {Array} playerGuesses array containing
+ * @return {bool} true if input is valid, false if not
+ **/
+function sendResponse(locMatches, existingNums, playerGuesses){
     let guessMessage = "Your guess: " + playerGuesses.join(' ');
     let responseMessage;
 
-    //run this code if the entire guess is correct
-    if (allCorrect) {
-        responseMessage = "Wow! You guessed the randPattern! You're a master codebreaker! Refresh to restart.";
-    }
     //else run this code if any part of their guess is correct in some way
-    else if (locMatches > 0 || existingNums > 0){
-        responseMessage = `You have ${locMatches} of your guesses in the correct location. You have also guessed ${existingNums} matching numbers that are in the wrong location. The rest are incorrect.`;
+    if (locMatches > 0 || existingNums > 0){
+        responseMessage = `${locMatches} of your guesses are in the correct location. ${existingNums} of your guesses are in the code, but not in the right location.`;
     } 
     //else run this code is their guess is completely incorrect
     else {
         responseMessage = "None of these numbers are correct.";
     }
 
+    //adds most recent feedback to top of the feedback history (default hidden)
+    let feedback = createFeedbackElements(guessMessage, responseMessage);
+    let element = document.getElementById("feedbackLog");
+    element.insertBefore(feedback, element.firstChild);
+
+    //displays the most recent feedback
     document.getElementById("recentFeedbackText").innerHTML = guessMessage + "<br/>" + responseMessage;
-
-    createFeedbackElements(guessMessage, responseMessage);
-
-    return;
 }
 
+/**
+ * sends popup and option to restart
+ *
+ * @param {bool} isWon true if player's guess is correct
+ **/
+function endGame(isWon){
+    let winLoseTitle = document.getElementById("winLoseTitle");
+    let winLoseText = document.getElementById("winLoseText");
+    let restartButton = document.getElementById("restartButton");
+
+    if (isWon) {
+        winLoseTitle.innerHTML = "You Won!";
+        winLoseText.innerHTML = "Wow, you guessed the code! You're a master codebreaker! Press the button to play again."
+    }
+    else {
+        winLoseTitle.innerHTML = "You Lost!";
+        winLoseText.innerHTML = "Aw man, you ran out of guesses! Do you want to try again?"
+    }
+
+    document.getElementById("winLoseContainer").classList.add("show");
+    restartButton.addEventListener("click", () =>{
+        location.reload();
+    });
+}
+
+/*--------HELPER FUNCTIONS--------*/
+/**
+ * gets random four numbers from random.org API and stores them in a global array
+ * used by setUpPage function
+ *
+ * @param {string} url The URL of the API being requested
+ **/
+ async function getPattern(url){
+    const response = await fetch(url);
+    result = await response.text();
+    randPattern = result.split("\n");
+    randPattern.pop();
+    console.log(randPattern);
+}
+
+/**
+ * on click, hides element and focuses on input
+ * used by setUpPage function
+ * 
+ * @param {HTMLElement} element
+ **/
+ function hideOnClick(element){
+    element.addEventListener("click", () => {
+        element.classList.remove("show");
+        document.getElementById("slot1").focus();
+    });
+}
+
+/**
+ * counts guesses remaining
+ * used by onSubmit function
+ * 
+ * @return {Number} indicating how many guesses left
+ **/
+ function countGuesses(){
+    let guessesLeftText = document.getElementById("guessesLeftText");
+    guessesLeft -= 1;
+    guessesLeftText.innerHTML= `${guessesLeft} GUESSES REMAINING`;
+    return guessesLeft;
+}
+
+/**
+ * validates that the player guesses meet requirements
+ * used by onSubmit function
+ * 
+ * @param {array} playerGuesses
+ * @return {bool} true if input is valid, false if not
+ **/
+ function validateInput(playerGuesses) {
+    let validator = document.getElementById("guessesLeftText");
+
+    //if any of the input fields are empty
+    if(playerGuesses.includes(undefined || "")) {
+        validator.innerHTML= "Make sure you have a guess for each slot!";
+        validator.style.display="block";
+        return false;
+    } 
+    //if any of the input fiels are out of range
+    else if (playerGuesses.find(slot => slot < 0 || slot > 7)){
+        validator.innerHTML= "Make sure your guesses are between 0 and 7!";
+        validator.style.display="block";
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * creates all the HTML elements related to the guess feedback
+ * used by sendResponse function
+ * 
+ * @param {String} guess
+ * @param {String} response
+ * @return {HTMLDivElement} div containing all the feedback
+ **/
 function createFeedbackElements(guess, response){
-    //div to prepend elements to
-    let element = document.getElementById("feedbackLog");
+    //identify div to prepend elements to
     
     //create new feedbackholder div
     let feedbackHolder = document.createElement("div");
@@ -207,29 +273,46 @@ function createFeedbackElements(guess, response){
     let icon = document.createElement("div");
     icon.setAttribute("class","detective pic");
 
-    //create text message
+    //create feedback message element
     let feedback = document.createElement("p");
     feedback.setAttribute("class", "feedback");
 
-    //add everything to feedbackHolder div
+    //add all text to the feedback message
     let guessText = document.createTextNode(guess)
     let feedbackText = document.createTextNode(response);
     feedback.appendChild(guessText);
     feedback.appendChild(document.createElement('br'));
     feedback.appendChild(feedbackText);
 
+    //add icon and feedback text to feedbackHolder
     feedbackHolder.appendChild(icon);
     feedbackHolder.appendChild(feedback);
     
-    //default state to hidden if toggle history off
+    //default state to hidden if toggle history is off
     if (document.getElementById("recentFeedback").style.display != "none"){
         feedbackHolder.setAttribute("style", "display: none;");
     }
 
-    //element.appendChild(feedbackHolder);
-    element.insertBefore(feedbackHolder, element.firstChild);
+    //add everything to the top of feedback
+    return feedbackHolder;
 }
 
+/*-------OTHER FUNCTIONS-------*/
+/**
+ * checks if the guess has been entered
+ *
+ * @param {keyof} e keystroke
+ **/
+ function checkSubmit(e) {
+    //if player clicks enter key, register a submitted guess
+    if(e && e.keyCode == 13) {
+        onSubmit();
+    }
+}
+
+/**
+ * Toggles feedback history when player clicks
+ **/
 function toggleHistory(){
     if (document.getElementById("recentFeedback").style.display != "none"){
         let history = document.getElementsByClassName("feedbackHolder");

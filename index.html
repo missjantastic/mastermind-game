@@ -34,7 +34,7 @@
                 <div class = "detective pic"></div>
                 <p id="recentFeedbackText" class="feedback"></p>
             </div>
-            <button id ="toggleButton" onclick="toggleHistory()">View/Hide Message History</button>
+            <button id ="toggleButton">View/Hide Message History</button>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-     <div class="modalContainer" id="welcomeContainer">
+    <div class="modalContainer" id="welcomeContainer">
         <div class="modal">
             <h1>Welcome to Mastermind!</h1>
             <p>The object of the game is to guess the 4 digit code.</p>
@@ -66,6 +66,14 @@
             </ul>
             <p>Remember to have fun! See if you can become a master codebreaker!</p>
             <button id="startButton">Start</button>
+        </div>
+    </div>
+
+    <div class="modalContainer" id="winLoseContainer">
+        <div class="modal">
+            <h1 id= "winLoseTitle"></h1>
+            <p id="winLoseText"></p>
+            <button id="restartButton">Restart</button>
         </div>
     </div>
 
